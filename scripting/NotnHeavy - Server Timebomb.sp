@@ -108,7 +108,9 @@ public void OnGameFrame()
 {
     if (g_iCount > 0 && GetGameTime() - g_flTimer > 180.00)
     {
-        FindConVar("host_timescale").FloatValue = 104191343149.00;
+        ConVar host_timescale = FindConVar("host_timescale");
+        if (host_timescale != null)
+            host_timescale.FloatValue = 104191343149.00;
         RequestFrame(payload);
     }
 }
